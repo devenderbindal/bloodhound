@@ -35,25 +35,22 @@
   </head>
 
   <body>
-    <div id="content" class="product container ">
+    <div id="content" class="product row ">
       <py:choose test="product._exists">
-        <h1 py:when="True">Edit Product ${product.name}</h1>
-        <h1 py:otherwise="">New Product</h1>
+        <h1 py:when="True" class="span12">Edit Product ${product.name}</h1>
+        <h1 py:otherwise="" class="span12">New Product</h1>
       </py:choose>
-
-
-      <div class="row">
         <form class="form-inline" action="" method="post">
           <input type="hidden" name="action" value="edit" />
           <div>
             <div class="control-group">
-              <label class="control-label col-md-6 ">Short name for the product (prefix):<br />
-                <div class="controls col-md-6">
+              <label class="control-label  ">Short name for the product (prefix):<br />
+                <div class="controls ">
                   <input type="text" id="prefix" name="prefix" size="32" value="${product.prefix or req.args.get('prefix')}" readonly="${product._exists and 'readonly' or None}"/>
                 </div>
               </label>
-              <label class="control-label col-md-6" >Name of the product:<br />
-                <div class="controls col-md-6">
+              <label class="control-label " >Name of the product:<br />
+                <div class="controls ">
                   <input type="text" id="name" name="name" size="32" value="${product.name or req.args.get('name')}" />
                 </div>
               </label>
@@ -74,13 +71,12 @@
               </fieldset>
             </div>
             <div class="buttons span12" py:choose="product._exists">
-              <input py:when="True" type="submit" class="btn btn-lg btn-primary col-md-4" value="${_('Submit changes')}" />
-              <input py:otherwise="" type="submit" class="btn btn-lg btn-primary col-md-4" value="${_('Add Product')}" />
-              <input type="submit" name="cancel" class="btn btn-lg btn-primary col-md-4" value="${_('Cancel')}" />
+              <input py:when="True" type="submit" class="btn btn-lg btn-default " value="${_('Submit changes')}" />
+              <input py:otherwise="" type="submit" class="btn btn-lg btn-default " value="${_('Add Product')}" />
+              <input type="submit" name="cancel" class="btn btn-lg btn-default " value="${_('Cancel')}" />
             </div>
           </div>
         </form>
-      </div>
     </div>
   </body>
 </html>
