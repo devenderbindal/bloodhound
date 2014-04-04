@@ -38,15 +38,27 @@ import whoosh.highlight
 from whoosh.collectors import FilterCollector
 from whoosh.writing import AsyncWriter
 from datetime import datetime
+from trac.env import ISystemInfoProvider
 
 from bhsearch.whoosh_fixes import fixes_for
 for fix in fixes_for(whoosh.__version__):
     apply(fix)
 
+try:
+    import whoosh
+    have_whoosh = True
+except ImportError:
+    have_whoosh = False
+    
 UNIQUE_ID = "unique_id"
 
 
 class WhooshBackend(Component):
+    """
+    Implements ISystemInfoProvider for Whoosh version
+    """
+    implements(ISystemInfoProvider)
+    
     """
     Implements Whoosh SearchBackend interface
     """
@@ -126,6 +138,12 @@ class WhooshBackend(Component):
             self.index = index.open_dir(self.index_dir)
         else:
             self.index = None
+
+    # ISystemInfoProvider methods
+
+    def get_system_info(self):
+        if have_whoosh:
+            yield 'Whoosh', str(whoosh.__version__)
 
     #ISearchBackend methods
     def start_operation(self):
